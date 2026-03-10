@@ -1,4 +1,4 @@
-package io.priyanshu.async;
+package io.javanode.async;
 
 import java.util.Objects;
 import java.util.Optional;

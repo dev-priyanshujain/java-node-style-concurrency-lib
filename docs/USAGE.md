@@ -28,13 +28,13 @@ Add the library to your project (e.g. install to local Maven repo and add the de
 
 ```xml
 <dependency>
-    <groupId>io.priyanshu</groupId>
+    <groupId>io.javanode</groupId>
     <artifactId>java-node-style-concurrency-lib</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
-All public APIs live in the package **`io.priyanshu.async`**.
+All public APIs live in the package **`io.javanode.async`**.
 
 ---
 
@@ -45,7 +45,7 @@ All public APIs live in the package **`io.priyanshu.async`**.
 **Already resolved or rejected:**
 
 ```java
-import io.priyanshu.async.Promise;
+import io.javanode.async.Promise;
 
 Promise<String> resolved = Promise.resolve("hello");
 Promise<String> rejected = Promise.reject(new RuntimeException("failed"));
@@ -174,7 +174,7 @@ Use **`Async`** for Node-style timers. Tasks run on a single-threaded scheduler 
 ### `setTimeout` — run once after a delay
 
 ```java
-import io.priyanshu.async.Async;
+import io.javanode.async.Async;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -222,9 +222,9 @@ Cancel timeouts and promise observation using **`AbortController`** and **`Abort
 ### Create and pass the signal
 
 ```java
-import io.priyanshu.async.AbortController;
-import io.priyanshu.async.AbortSignal;
-import io.priyanshu.async.AbortException;
+import io.javanode.async.AbortController;
+import io.javanode.async.AbortSignal;
+import io.javanode.async.AbortException;
 
 AbortController controller = new AbortController();
 AbortSignal signal = controller.getSignal();
@@ -269,7 +269,7 @@ Promise<String> p = Promise.create((resolve, reject) -> {
 ### Register and remove listeners
 
 ```java
-import io.priyanshu.async.EventEmitter;
+import io.javanode.async.EventEmitter;
 
 EventEmitter bus = new EventEmitter();
 
@@ -301,7 +301,7 @@ done.then(v -> System.out.println("all listeners ran"));
 ### Default pool
 
 ```java
-import io.priyanshu.async.WorkerPool;
+import io.javanode.async.WorkerPool;
 
 WorkerPool pool = new WorkerPool();
 
@@ -362,7 +362,7 @@ When a promise rejects and **no** `catchError`, `then(_, onRejected)`, or `final
 ### Register a global handler
 
 ```java
-import io.priyanshu.async.PromiseDiagnostics;
+import io.javanode.async.PromiseDiagnostics;
 
 PromiseDiagnostics.onUnhandledRejection(info -> {
     System.err.println("Unhandled rejection: " + info.getReason().getMessage());
@@ -452,4 +452,4 @@ Otherwise, register an `onUnhandledRejection` handler so no rejection is lost.
 | Use with existing futures | `Promise.fromFuture`, `promise.toFuture()` |
 | See unhandled rejections | `PromiseDiagnostics.onUnhandledRejection`, `setDebugLogging` |
 
-For more detail, see the Javadoc on each class in `io.priyanshu.async`.
+For more detail, see the Javadoc on each class in `io.javanode.async`.

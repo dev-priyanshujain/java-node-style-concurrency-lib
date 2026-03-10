@@ -1,4 +1,4 @@
-package io.priyanshu.async;
+package io.javanode.async;
 
 /**
  * Exception type used to represent an aborted operation triggered via
