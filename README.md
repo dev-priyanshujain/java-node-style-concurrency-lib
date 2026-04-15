@@ -1,9 +1,27 @@
 # Java Node-Style Concurrency Library
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.dev-priyanshujain/java-node-style-concurrency-lib.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.dev-priyanshujain/java-node-style-concurrency-lib)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Java 17+](https://img.shields.io/badge/Java-17%2B-blue.svg)](https://openjdk.org/)
 
 A lightweight, zero-dependency Java library that brings **Node.js-style async patterns** to the JVM — promises, timers, event emitters, cancellation, and more.
+
+## Installation
+
+Add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>io.github.dev-priyanshujain</groupId>
+    <artifactId>java-node-style-concurrency-lib</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+For Gradle (Groovy):
+```groovy
+implementation 'io.github.dev-priyanshujain:java-node-style-concurrency-lib:0.1.0'
+```
 
 ## Features
 
@@ -17,7 +35,7 @@ A lightweight, zero-dependency Java library that brings **Node.js-style async pa
 
 ## Documentation
 
-**[Usage Guide](docs/USAGE.md)** — setup, examples, and how to use each part of the library.
+**[Usage Guide](docs/USAGE.md)** — detailed examples and API reference.
 
 ## Building
 

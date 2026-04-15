@@ -22,15 +22,13 @@ This guide explains how to use the library to write async, promise-based code in
 
 ---
 
-## Setup
-
-Add the library to your project (e.g. install to local Maven repo and add the dependency):
+Add the library to your project:
 
 ```xml
 <dependency>
-    <groupId>io.javanode</groupId>
+    <groupId>io.github.dev-priyanshujain</groupId>
     <artifactId>java-node-style-concurrency-lib</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
@@ -66,12 +64,19 @@ Promise<Integer> p = Promise.create((resolve, reject) -> {
 
 Any exception thrown from the executor is treated as a rejection.
 
-### Reading the result (blocking)
-
 For tests or when you must block:
 
 ```java
 String value = promise.join();  // throws if the promise rejected
+```
+
+**With Timeout (Recommended for tests):**
+
+```java
+import java.util.concurrent.TimeUnit;
+
+// Blocks for up to 1 second, throws RuntimeException if it fails or times out
+String value = promise.await(1, TimeUnit.SECONDS); 
 ```
 
 ### Promise state
