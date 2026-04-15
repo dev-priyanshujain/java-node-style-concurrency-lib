@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.javanode</groupId>
+    <groupId>io.github.dev-priyanshujain</groupId>
     <artifactId>java-node-style-concurrency-lib</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>Java Node-Style Concurrency Library</name>
@@ -29,8 +29,8 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/dev-priyanshujain/java-node-style-concurrency-lib.git</connection>
-        <developerConnection>scm:git:ssh://github.com:dev-priyanshujain/java-node-style-concurrency-lib.git</developerConnection>
+        <connection>scm:git:https://github.com/dev-priyanshujain/java-node-style-concurrency-lib.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/dev-priyanshujain/java-node-style-concurrency-lib.git</developerConnection>
         <url>https://github.com/dev-priyanshujain/java-node-style-concurrency-lib/tree/master</url>
     </scm>
 
