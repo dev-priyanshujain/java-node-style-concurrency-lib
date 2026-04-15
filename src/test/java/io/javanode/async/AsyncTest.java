@@ -70,5 +70,39 @@ class AsyncTest {
         assertTrue(future.isCancelled() || future.isDone(),
                 "Scheduled future should be cancelled or completed");
     }
+
+    @Test
+    void setIntervalWithAbortSignal() throws Exception {
+        CountDownLatch latch = new CountDownLatch(2);
+        AtomicInteger counter = new AtomicInteger();
+        AbortController controller = new AbortController();
+
+        Async.setInterval(() -> {
+            counter.incrementAndGet();
+            latch.countDown();
+        }, 50, controller.getSignal());
+
+        // Wait for 2 ticks
+        assertTrue(latch.await(500, TimeUnit.MILLISECONDS));
+        
+        controller.abort();
+        int countAfterAbort = counter.get();
+        
+        Thread.sleep(150);
+        assertEquals(countAfterAbort, counter.get(), "Interval should stop after abort");
+    }
+
+    @Test
+    void multipleTimeoutsOrder() throws Exception {
+        CountDownLatch latch = new CountDownLatch(3);
+        StringBuilder sb = new StringBuilder();
+
+        Async.setTimeout(() -> { sb.append("C"); latch.countDown(); }, 150);
+        Async.setTimeout(() -> { sb.append("A"); latch.countDown(); }, 50);
+        Async.setTimeout(() -> { sb.append("B"); latch.countDown(); }, 100);
+
+        assertTrue(latch.await(1, TimeUnit.SECONDS));
+        assertEquals("ABC", sb.toString(), "Timeouts should run in order of delay");
+    }
 }
 

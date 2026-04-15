@@ -104,8 +104,8 @@ public final class Promise<T> {
         CompletableFuture<T> future = new CompletableFuture<>();
         try {
             executor.execute(future::complete, future::completeExceptionally);
-        } catch (Throwable t) {
-            future.completeExceptionally(t);
+        } catch (Exception e) {
+            future.completeExceptionally(e);
         }
         return new Promise<>(future);
     }
@@ -147,7 +147,9 @@ public final class Promise<T> {
         rejectionHandled = true;
         return new Promise<>(delegate.handle((value, error) -> {
             if (error == null) {
-                return onFulfilled == null ? (U) value : onFulfilled.apply(value);
+                @SuppressWarnings("unchecked")
+                U result = onFulfilled == null ? (U) value : onFulfilled.apply(value);
+                return result;
             } else {
                 Throwable unwrapped = unwrapCompletionException(error);
                 if (onRejected == null) {
@@ -182,6 +184,29 @@ public final class Promise<T> {
         return delegate.join();
     }
 
+    /**
+     * Blocks until the promise is settled or the timeout elapses.
+     *
+     * @param timeout the maximum time to wait
+     * @param unit    the time unit of the timeout argument
+     * @return the result of the promise
+     * @throws RuntimeException if the promise was rejected, timed out, or the thread was interrupted
+     */
+    public T await(long timeout, java.util.concurrent.TimeUnit unit) {
+        try {
+            return delegate.get(timeout, unit);
+        } catch (java.util.concurrent.ExecutionException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof RuntimeException re) throw re;
+            throw new RuntimeException(cause != null ? cause : e);
+        } catch (java.util.concurrent.TimeoutException e) {
+            throw new RuntimeException("Timeout after " + timeout + " " + unit, e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        }
+    }
+
     public static <T> Promise<List<T>> all(Collection<? extends Promise<? extends T>> promises) {
         if (promises.isEmpty()) return Promise.resolve(List.of());
         List<? extends Promise<? extends T>> list = List.copyOf(promises);
@@ -206,7 +231,11 @@ public final class Promise<T> {
             List<AllSettledResult<T>> res = new ArrayList<>(list.size());
             for (Promise<? extends T> p : list) {
                 try { res.add(AllSettledResult.fulfilled(p.join())); }
-                catch (Throwable t) { res.add(AllSettledResult.rejected(t.getCause() != null ? t.getCause() : t)); }
+                catch (Throwable t) {
+                    Throwable cause = t.getCause();
+                    Throwable reason = cause != null ? cause : t;
+                    res.add(AllSettledResult.rejected(reason));
+                }
             }
             return res;
         }));

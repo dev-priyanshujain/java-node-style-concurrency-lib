@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * A lightweight, Node.js-style {@code EventEmitter} for Java.
@@ -116,7 +115,7 @@ public final class EventEmitter {
                 listeners.getOrDefault(event, new CopyOnWriteArrayList<>());
 
         return Promise.create((resolve, reject) -> {
-            ScheduledFuture<?> ignored = Async.nextTick(() -> {
+            Async.nextTick(() -> {
                 try {
                     if (regs.isEmpty()) {
                         resolve.resolve(null);
